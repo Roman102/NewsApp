@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">News App</string>
+    <string name="app_name">Guardian News</string>
+    <string name="guardian_api_key">Type in your Guardian API key.</string>
 </resources>
