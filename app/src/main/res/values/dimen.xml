@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="margin_between_elements">5dp</dimen>
+    <dimen name="guardian_api_key_weight">0.64</dimen>
+    <dimen name="button_load_data_weight">0.36</dimen>
+</resources>

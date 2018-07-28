@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Guardian News</string>
     <string name="guardian_api_key">Type in your Guardian API key.</string>
+    <string name="button_load_data">Get news</string>
 </resources>

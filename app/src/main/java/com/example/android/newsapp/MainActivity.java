@@ -27,7 +27,6 @@ public class MainActivity extends AppCompatActivity {
             data[i] = "Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum End" + i;
         }
 
-
         // The view holder objects are managed by a custom adapter by extending
         // RecyclerView.Adapter. The adapter creates view holders as needed. The adapter also
         // binds the view holders to their data.
