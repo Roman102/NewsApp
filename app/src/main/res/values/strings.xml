@@ -2,4 +2,11 @@
     <string name="app_name">Guardian News</string>
     <string name="guardian_api_key">Type in your Guardian API key.</string>
     <string name="button_load_data">Get news</string>
+    <string name="guardian_api_entry_point">https://content.guardianapis.com/search?show-tags=contributor&amp;api-key=</string>
+
+    <string name="title_of_the_article">Article title:</string>
+    <string name="name_of_the_section_that_it_belongs_to">Article section:</string>
+    <string name="author_name">Author:</string>
+    <string name="article_date">Article date:</string>
+    <string name="error_text">Type in your Guardian API key in the input field above and tap on the news-button in order to load Guardian news!</string>
 </resources>

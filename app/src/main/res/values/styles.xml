@@ -16,4 +16,9 @@
         <item name="android:layout_marginTop">@dimen/margin_between_elements</item>
     </style>
 
+    <style name="GuardianNewViewLabel">
+        <item name="android:textStyle">bold</item>
+        <item name="android:layout_marginTop">@dimen/margin_between_elements</item>
+    </style>
+
 </resources>

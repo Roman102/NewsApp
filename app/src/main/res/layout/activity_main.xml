@@ -19,6 +19,7 @@
     <Button
         android:id="@+id/button_load_data"
         style="@style/GuardianNewsStyle"
+        android:onClick="fetchGuardianNews"
         android:text="@string/button_load_data"
         app:layout_constraintHorizontal_weight="@dimen/button_load_data_weight"
         app:layout_constraintLeft_toRightOf="@+id/guardian_api_key"
@@ -27,9 +28,11 @@
 
     <android.support.v17.leanback.widget.VerticalGridView
         android:id="@+id/guardian_news_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_marginTop="@dimen/margin_between_elements"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/guardian_api_key" />
-
 </android.support.constraint.ConstraintLayout>
