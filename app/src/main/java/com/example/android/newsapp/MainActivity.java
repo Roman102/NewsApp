@@ -20,6 +20,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import static android.text.InputType.TYPE_CLASS_TEXT;
@@ -74,6 +76,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
         guardianNewsLoaderArgs.putString("guardian_api_entry_point", getResources().getString(R.string.guardian_api_entry_point));
         guardianNewsLoaderArgs.putString("guardian_api_key", guardianAPIKeyEditText.getText().toString().trim());
+        guardianNewsLoaderArgs.putString("article_date_pattern", getResources().getString(R.string.article_date_pattern));
 
         if (guardianNewsLoader == null) {
             guardianNewsLoader = getSupportLoaderManager().initLoader(0, guardianNewsLoaderArgs, this);
@@ -164,7 +167,12 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                                                 guardianNewsItem.sectionName = jsonReader.nextString();
                                                 break;
                                             case "webPublicationDate":
-                                                guardianNewsItem.articleDate = jsonReader.nextString();
+                                                guardianNewsItem.articleDate = SimpleDateFormat
+                                                        .getDateTimeInstance()
+                                                        .format(
+                                                                new SimpleDateFormat(mainActivityArgs.getString("article_date_pattern"))
+                                                                        .parse(jsonReader.nextString())
+                                                        );
                                                 break;
                                             case "tags":
                                                 int authorCount = 0;
@@ -219,6 +227,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 Log.e("MainActivity", "Error ", e);
 
                 return null;
+            } catch (ParseException e) {
+                e.printStackTrace();
             } finally {
                 if (urlConnection != null) {
                     urlConnection.disconnect();

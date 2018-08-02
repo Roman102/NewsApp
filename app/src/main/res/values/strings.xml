@@ -8,5 +8,6 @@
     <string name="name_of_the_section_that_it_belongs_to">Article section:</string>
     <string name="author_name">Author:</string>
     <string name="article_date">Article date:</string>
+    <string name="article_date_pattern">yyyy-MM-dd\'T\'HH:mm:ss\'Z\'</string>
     <string name="error_text">Type in your Guardian API key in the input field above and tap on the news-button in order to load Guardian news!</string>
 </resources>
