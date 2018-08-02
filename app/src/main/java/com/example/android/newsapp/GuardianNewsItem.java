@@ -6,4 +6,6 @@ class GuardianNewsItem {
     public String authors = null;
     public String articleDate = null;
     public String url;
+
+    public String errorText;
 }

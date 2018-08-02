@@ -25,7 +25,7 @@ public class GuardianNewsViewAdapter extends RecyclerView.Adapter<GuardianNewsVi
     @Override
     public GuardianNewsViewAdapter.GuardianNewsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         // Create a new view and a view holder for that view.
-        if (dataset == null) {
+        if ((dataset.size() > 0) && (dataset.get(0).errorText != null)) {
             return new GuardianNewsViewHolder((ConstraintLayout) LayoutInflater.from(parent.getContext()).inflate(R.layout.error_view, parent, false));
         }
 
@@ -35,44 +35,44 @@ public class GuardianNewsViewAdapter extends RecyclerView.Adapter<GuardianNewsVi
     // The layout manager binds the view holder to its data.
     @Override
     public void onBindViewHolder(@NonNull final GuardianNewsViewAdapter.GuardianNewsViewHolder guardianNewsViewHolder, int position) {
-        if (dataset != null) {
-            if (position % 2 == 0) {
-                guardianNewsViewHolder.guardianNewView.setBackgroundColor(guardianNewsViewHolder.guardianNewView.getResources().getColor(R.color.lb_action_text_color));
-            } else {
-                guardianNewsViewHolder.guardianNewView.setBackgroundColor(guardianNewsViewHolder.guardianNewView.getResources().getColor(android.R.color.white));
-            }
-
-            TextView titleOfTheArticle = guardianNewsViewHolder.guardianNewView.findViewById(R.id.title_of_the_article);
-
-            titleOfTheArticle.setText(dataset.get(position).title);
-
-            titleOfTheArticle.setOnClickListener(new View.OnClickListener() {
-
-                @Override
-                public void onClick(View view) {
-                    Uri webpage = Uri.parse(dataset.get(guardianNewsViewHolder.getAdapterPosition()).url);
-
-                    Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
-
-                    if (intent.resolveActivity(view.getContext().getPackageManager()) != null) {
-                        view.getContext().startActivity(intent);
-                    }
+        if (dataset.size() > 0) {
+            if (dataset.get(0).errorText == null) {
+                if (position % 2 == 0) {
+                    guardianNewsViewHolder.guardianNewView.setBackgroundColor(guardianNewsViewHolder.guardianNewView.getResources().getColor(R.color.lb_action_text_color));
+                } else {
+                    guardianNewsViewHolder.guardianNewView.setBackgroundColor(guardianNewsViewHolder.guardianNewView.getResources().getColor(android.R.color.white));
                 }
 
-            });
+                TextView titleOfTheArticle = guardianNewsViewHolder.guardianNewView.findViewById(R.id.title_of_the_article);
 
-            ((TextView) guardianNewsViewHolder.guardianNewView.findViewById(R.id.name_of_the_section_that_it_belongs_to)).setText(dataset.get(position).sectionName);
-            ((TextView) guardianNewsViewHolder.guardianNewView.findViewById(R.id.author_name)).setText(dataset.get(position).authors);
-            ((TextView) guardianNewsViewHolder.guardianNewView.findViewById(R.id.article_date)).setText(dataset.get(position).articleDate);
+                titleOfTheArticle.setText(dataset.get(position).title);
+
+                titleOfTheArticle.setOnClickListener(new View.OnClickListener() {
+
+                    @Override
+                    public void onClick(View view) {
+                        Uri webpage = Uri.parse(dataset.get(guardianNewsViewHolder.getAdapterPosition()).url);
+
+                        Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
+
+                        if (intent.resolveActivity(view.getContext().getPackageManager()) != null) {
+                            view.getContext().startActivity(intent);
+                        }
+                    }
+
+                });
+
+                ((TextView) guardianNewsViewHolder.guardianNewView.findViewById(R.id.name_of_the_section_that_it_belongs_to)).setText(dataset.get(position).sectionName);
+                ((TextView) guardianNewsViewHolder.guardianNewView.findViewById(R.id.author_name)).setText(dataset.get(position).authors);
+                ((TextView) guardianNewsViewHolder.guardianNewView.findViewById(R.id.article_date)).setText(dataset.get(position).articleDate);
+            } else {
+                ((TextView) guardianNewsViewHolder.guardianNewView.findViewById(R.id.error_text_view)).setText(dataset.get(0).errorText);
+            }
         }
     }
 
     @Override
     public int getItemCount() {
-        if (dataset == null) {
-            return 1;
-        }
-
         return dataset.size();
     }
 

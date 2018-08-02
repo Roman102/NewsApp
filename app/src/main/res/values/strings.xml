@@ -9,5 +9,7 @@
     <string name="author_name">Author:</string>
     <string name="article_date">Article date:</string>
     <string name="article_date_pattern">yyyy-MM-dd\'T\'HH:mm:ss\'Z\'</string>
-    <string name="error_text">Type in your Guardian API key in the input field above and tap on the news-button in order to load Guardian news!</string>
+
+    <string name="error_no_connection">Could not connect to Guardian News! Please check your Internet connection! Did you type in your Guardian API key in the above input field?</string>
+    <string name="error_unknown_response">The app was unable to interpret the response from Guardian News!</string>
 </resources>

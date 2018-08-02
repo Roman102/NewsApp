@@ -78,6 +78,9 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         guardianNewsLoaderArgs.putString("guardian_api_key", guardianAPIKeyEditText.getText().toString().trim());
         guardianNewsLoaderArgs.putString("article_date_pattern", getResources().getString(R.string.article_date_pattern));
 
+        guardianNewsLoaderArgs.putString("error_no_connection", getResources().getString(R.string.error_no_connection));
+        guardianNewsLoaderArgs.putString("error_unknown_response", getResources().getString(R.string.error_unknown_response));
+
         if (guardianNewsLoader == null) {
             guardianNewsLoader = getSupportLoaderManager().initLoader(0, guardianNewsLoaderArgs, this);
         } else {
@@ -118,6 +121,17 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             this.mainActivityArgs = args;
         }
 
+        private ArrayList<GuardianNewsItem> createErrorMessage(String errorMessage) {
+            GuardianNewsItem errMsgItem = new GuardianNewsItem();
+            errMsgItem.errorText = errorMessage;
+
+            ArrayList<GuardianNewsItem> errMsgWrapper = new ArrayList<>();
+
+            errMsgWrapper.add(errMsgItem);
+
+            return errMsgWrapper;
+        }
+
         @Nullable
         @Override
         public ArrayList<GuardianNewsItem> loadInBackground() {
@@ -137,7 +151,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 if (inputStream == null) {
                     Log.e("MainActivity", "The InputStream doesn't exist!");
 
-                    return null;
+                    return createErrorMessage(mainActivityArgs.getString("error_no_connection"));
                 }
 
                 jsonReader = new JsonReader(new InputStreamReader(inputStream));
@@ -167,12 +181,20 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                                                 guardianNewsItem.sectionName = jsonReader.nextString();
                                                 break;
                                             case "webPublicationDate":
-                                                guardianNewsItem.articleDate = SimpleDateFormat
-                                                        .getDateTimeInstance()
-                                                        .format(
-                                                                new SimpleDateFormat(mainActivityArgs.getString("article_date_pattern"))
-                                                                        .parse(jsonReader.nextString())
-                                                        );
+                                                String rawDateFormat = jsonReader.nextString();
+
+                                                try {
+                                                    guardianNewsItem.articleDate = SimpleDateFormat
+                                                            .getDateTimeInstance()
+                                                            .format(
+                                                                    new SimpleDateFormat(mainActivityArgs.getString("article_date_pattern"))
+                                                                            .parse(rawDateFormat)
+                                                            );
+                                                } catch (ParseException e) {
+                                                    Log.e("Date parse error", "Error", e);
+
+                                                    guardianNewsItem.articleDate = rawDateFormat;
+                                                }
                                                 break;
                                             case "tags":
                                                 int authorCount = 0;
@@ -212,7 +234,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
                                 jsonReader.close();
 
-                                return results;
+                                return results.size() > 0 ? results : createErrorMessage(mainActivityArgs.getString("error_unknown_response"));
                             } else { // ELSE - if (jsonReader.nextName().equals("results")) {
                                 jsonReader.skipValue();
                             }
@@ -226,9 +248,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             } catch (IOException e) {
                 Log.e("MainActivity", "Error ", e);
 
-                return null;
-            } catch (ParseException e) {
-                e.printStackTrace();
+                return createErrorMessage(mainActivityArgs.getString("error_no_connection"));
             } finally {
                 if (urlConnection != null) {
                     urlConnection.disconnect();
@@ -243,7 +263,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 }
             }
 
-            return null;
+            return createErrorMessage(mainActivityArgs.getString("error_unknown_response"));
         }
 
     }
